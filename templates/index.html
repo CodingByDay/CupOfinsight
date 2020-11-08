@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang='en'>
+{% load static %}
+	<head>
+        <style type="text/css">*{
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+body{
+  font-family: montserrat;
+}
+nav{
+  background: #0082e6;
+  height: 80px;
+  width: 100%;
+}
+label.logo{
+  color: white;
+  font-size: 35px;
+  line-height: 80px;
+  padding: 0 100px;
+  font-weight: bold;
+}
+nav ul{
+  float: right;
+  margin-right: 20px;
+}
+nav ul li{
+  display: inline-block;
+  line-height: 80px;
+  margin: 0 5px;
+}
+nav ul li a{
+  color: white;
+  font-size: 17px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+a.active,a:hover{
+  background: #1b9bff;
+  transition: .5s;
+}
+.checkbtn{
+  font-size: 30px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 40px;
+  cursor: pointer;
+  display: none;
+}
+#check{
+  display: none;
+}
+@media (max-width: 952px){
+  label.logo{
+    font-size: 30px;
+    padding-left: 50px;
+  }
+  nav ul li a{
+    font-size: 16px;
+  }
+}
+@media (max-width: 858px){
+  .checkbtn{
+    display: block;
+  }
+  ul{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #2c3e50;
+    top: 80px;
+    left: -100%;
+    text-align: center;
+    transition: all .5s;
+  }
+  nav ul li{
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+  }
+  nav ul li a{
+    font-size: 20px;
+  }
+  a:hover,a.active{
+    background: none;
+    color: #0082e6;
+  }
+  #check:checked ~ ul{
+    left: 0;
+  }
+}
+section{
+  background: url(bg1.jpg) no-repeat;
+  background-size: cover;
+  height: calc(100vh - 80px);
+}
+</style>
+		<meta charset="utf-8">
+		<meta name="description" content="A free web-based meditation timer with three bells to choose from.  Customize delay, interval, and meditation timers.  No ads, no sign-up.">
+		<meta name="keywords" content="meditation, timer, buddhism">
+		<title>Meditation Timer</title>
+        <link rel='stylesheet' type='text/css' href="{% static 'css/meyerweb_reset.css' %}">
+   		<link rel='stylesheet' type='text/css' href="{% static 'css/main.css' %}">
+		<link rel='stylesheet' type='text/css' href="{% static 'css/jquery-ui.min.css' %}">
+		<link rel='stylesheet' type='text/css' href="{% static 'css/jquery-ui.theme.min.css' %}">
+		<link rel='stylesheet' type='text/css' href="{% static 'css/jquery-ui.structure.min.css' %}">
+		<link rel="icon" type="image/png" href="{% static 'images/favicon-32x32.png' %}" sizes="32x32">
+		<link rel="icon" type="image/png" href="{% static 'images/favicon-16x16.png' %}" sizes="16x16">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	</head>
+
+	<body>
+ <center> <nav>
+      <input type="checkbox" id="check">
+      <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+      </label>
+      <label class="logo">CupOfInsight</label>
+      <ul>
+        <li><a class="active" href="#">Login</a></li>
+        <li><a href="#">Register</a></li>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Plotter</a></li>
+        <li><a href="#">Feedback</a></li>
+      </ul>
+    </nav>
+  </center>
+  <hr>
+  <hr>
+		<div id='main'>
+			<div id='timer'>
+				<div id='arrows-up' class='visible-arrow'>
+					<div id='minute-up' class='arrow up-arrow minute-arrow'></div>
+					<div id='second-up' class='arrow up-arrow second-arrow'></div>
+				</div>
+				<div id = 'timers'>
+					<div id='delay-time' class='invisible'>
+						<p class='time'>00:10</p>
+					</div>
+					<div id='meditation-time' class='visible'>
+						<p class='time'>10:00</p>
+					</div>
+					<div id='interval-time' class='invisible'>
+						<p class='time'>00:00</p>
+					</div>
+				</div>
+				<div id='arrows-down' class='visible-arrow'>
+					<div id='minute-down' class='arrow down-arrow minute-arrow'></div>
+					<div id='second-down' class='arrow down-arrow second-arrow'></div>
+				</div>
+			</div>
+			<div id='buttons'>
+				<ul id='timer-buttons'>
+					<li id='delay' class='button'>Delay<p class='small-time time' id='delay-small'>00:10</p></li>
+					<li class='active button' id='meditation'>Meditation<p class='small-time time' id='meditation-small'>10:00</p></li>
+					<li id='interval' class='button'>Interval<p class='small-time time' id='interval-small'>00:00</p></li>
+				</ul>
+				<ul id='bells'>
+						<li class='button playing active' id='bell-1'>Bell 1</li>
+						<li id='bell-2' class='button'>Bell 2</li>
+						<li id='bell-3' class='button'>Bell 3</li>
+				</ul>
+				<ul id='start-stop-buttons'>
+					<li class='button' id='start-button'>Start</li>
+					<li class='button hidden' id='stop-button'>Stop</li>
+					<li class='button hidden' id='pause-button'>Pause</li>
+					<li class='button hidden' id='resume-button'>Resume</li>
+			</div>
+
+			<div id="social-media">
+				<span class='st_sharethis_large' displayText='ShareThis'></span>
+				<span class='st_facebook_large' displayText='Facebook'></span>
+				<span class='st_googleplus_large' displayText='Google +'></span>
+				<span class='st_twitter_large' displayText='Tweet'></span>
+				<span class='st_pinterest_large' displayText='Pinterest'></span>
+				<span class='st_email_large' displayText='Email'></span>
+			</div>
+
+			<div id='bell-audio'>
+				<audio id='bell-1-audio'><source src="{% static 'bells/bell-1.mp3' %}" type='audio/mp3'></audio>
+				<audio id='bell-2-audio'><source src="{% static 'bells/bell-2.mp3' %}" type='audio/mp3'></audio>
+				<audio id='bell-3-audio'><source src="{% static 'bells/bell-3.mp3' %}" type='audio/mp3'></audio>
+				<audio id="bell-1-long-audio"><source src="{% static 'bells/bell-1-long.mp3' %}" type="audio/mp3"></audio>
+				<audio id="bell-2-long-audio"><source src="{% static 'bells/bell-2-long.mp3' %}" type="audio/mp3"></audio>
+				<audio id="bell-3-long-audio"><source src="{% static 'bells/bell-3-long.mp3' %}" type="audio/mp3"></audio>
+			</div>
+    	</div>
+
+    	
+    	</div>
+
+
+  
+
+    	</div>
+       
+    	<script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+    	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+    	<script src="{% static 'js/meditation-timer.js' %}"></script>
+    	<script type="text/javascript">var switchTo5x=true;</script>
+		<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+		<script type="text/javascript">stLight.options({publisher: "0a21025d-e9c9-44e8-abfa-c44090903231", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+    </body>
+
+</html>
